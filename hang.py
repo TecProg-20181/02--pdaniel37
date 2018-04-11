@@ -71,14 +71,47 @@ def constGuessesDecrement():
     return -1
 
 
-def hangman(secretWord):
+def letterGuessed(secretWord, lettersGuessed):
+    guessed = getGuessedWord()
+    for letter in secretWord:
+        if letter in lettersGuessed:
+            guessed += letter
+        else:
+            guessed += '_'
 
-    guesses = constGuessesTotal()
-    lettersGuessed = []
-    print 'Welcome to the game, Hangam!'
-    print 'I am thinking of a word that is', len(secretWord), ' letters long.'
-    print '-------------'
+    print 'Oops! You have already guessed that letter: ', guessed
 
+
+def guessedCorrect(lettersGuessed, letter):
+    lettersGuessed.append(letter)
+    guessed = getGuessedWord()
+    for letter in secretWord:
+        if letter in lettersGuessed:
+            guessed += letter
+        else:
+            guessed += '_'
+
+    print 'Good Guess: ', guessed
+
+
+def guessedWrong(guesses, lettersGuessed, secretWord, letter):
+    guesses += constGuessesDecrement()
+    print guesses
+    print lettersGuessed
+    lettersGuessed.append(letter)
+    print lettersGuessed
+    guessed = getGuessedWord()
+    for letter in secretWord:
+        if letter in lettersGuessed:
+            guessed += letter
+        else:
+            guessed += '_'
+
+    print 'Oops! That letter is not in my word: ',  guessed
+    return guesses
+
+
+def play(guesses, lettersGuessed):
     returnFalse = constSecretWordImcomplete()
     while isWordGuessed(secretWord, lettersGuessed) == returnFalse and guesses > constNoGuesses():
         print 'You have ', guesses, 'guesses left.'
@@ -90,39 +123,17 @@ def hangman(secretWord):
 
         print 'Available letters', available
         letter = raw_input('Please guess a letter: ')
+
         if letter in lettersGuessed:
+            letterGuessed(secretWord, lettersGuessed)
 
-            guessed = getGuessedWord()
-            for letter in secretWord:
-                if letter in lettersGuessed:
-                    guessed += letter
-                else:
-                    guessed += '_'
-
-            print 'Oops! You have already guessed that letter: ', guessed
         elif letter in secretWord:
-            lettersGuessed.append(letter)
+            guessedCorrect(lettersGuessed, letter)
 
-            guessed = getGuessedWord()
-            for letter in secretWord:
-                if letter in lettersGuessed:
-                    guessed += letter
-                else:
-                    guessed += '_'
-
-            print 'Good Guess: ', guessed
         else:
-            guesses += constGuessesDecrement()
-            lettersGuessed.append(letter)
+            guesses = guessedWrong(guesses, lettersGuessed, secretWord, letter)
 
-            guessed = getGuessedWord()
-            for letter in secretWord:
-                if letter in lettersGuessed:
-                    guessed += letter
-                else:
-                    guessed += '_'
 
-            print 'Oops! That letter is not in my word: ',  guessed
         print '------------'
 
     else:
@@ -131,6 +142,16 @@ def hangman(secretWord):
             print 'Congratulations, you won!'
         else:
             print 'Sorry, you ran out of guesses. The word was ', secretWord, '.'
+
+
+def hangman(secretWord):
+
+    guesses = constGuessesTotal()
+    lettersGuessed = []
+    print 'Welcome to the game, Hangam!'
+    print 'I am thinking of a word that is', len(secretWord), ' letters long.'
+    print '-------------'
+    play(guesses, lettersGuessed)
 
 
 secretWord = loadWords().lower()
