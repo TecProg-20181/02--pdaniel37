@@ -1,7 +1,12 @@
 import random
 import string
 
-WORDLIST_FILENAME = "palavras.txt"
+
+def constTextFile():
+    return "palavras.txt"
+
+
+WORDLIST_FILENAME = constTextFile()
 
 
 def loadWords():
@@ -20,22 +25,24 @@ def loadWords():
     return random.choice(wordlist)
 
 
+def constSecretWordImcomplete():
+    return False
+
+
+def constSecretWordComplete():
+    return True
+
+
 def isWordGuessed(secretWord, lettersGuessed):
-    secretLetters = []
-
-#    for letter in secretWord:
-#        if letter in secretLetters:
-#            secretLetters.append(letter)
-#        else:
-#            pass
-
     for letter in secretWord:
         if letter in lettersGuessed:
             pass
         else:
-            return False
+            response = constSecretWordImcomplete()
+            return response
 
-    return True
+    response = constSecretWordComplete()
+    return response
 
 
 def getGuessedWord():
@@ -46,7 +53,6 @@ def getGuessedWord():
 
 
 def getAvailableLetters():
-    import string
     # 'abcdefghijklmnopqrstuvwxyz'
     available = string.ascii_lowercase
 
@@ -73,7 +79,8 @@ def hangman(secretWord):
     print 'I am thinking of a word that is', len(secretWord), ' letters long.'
     print '-------------'
 
-    while isWordGuessed(secretWord, lettersGuessed) == False and guesses > constNoGuesses():
+    returnFalse = constSecretWordImcomplete()
+    while isWordGuessed(secretWord, lettersGuessed) == returnFalse and guesses > constNoGuesses():
         print 'You have ', guesses, 'guesses left.'
 
         available = getAvailableLetters()
@@ -119,7 +126,8 @@ def hangman(secretWord):
         print '------------'
 
     else:
-        if isWordGuessed(secretWord, lettersGuessed) == True:
+        returnTrue = constSecretWordComplete()
+        if isWordGuessed(secretWord, lettersGuessed) == returnTrue:
             print 'Congratulations, you won!'
         else:
             print 'Sorry, you ran out of guesses. The word was ', secretWord, '.'
