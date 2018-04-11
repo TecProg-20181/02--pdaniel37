@@ -53,15 +53,27 @@ def getAvailableLetters():
     return available
 
 
+def constGuessesTotal():
+    return 8
+
+
+def constNoGuesses():
+    return 0
+
+
+def constGuessesDecrement():
+    return -1
+
+
 def hangman(secretWord):
 
-    guesses = 8
+    guesses = constGuessesTotal()
     lettersGuessed = []
     print 'Welcome to the game, Hangam!'
     print 'I am thinking of a word that is', len(secretWord), ' letters long.'
     print '-------------'
 
-    while isWordGuessed(secretWord, lettersGuessed) == False and guesses > 0:
+    while isWordGuessed(secretWord, lettersGuessed) == False and guesses > constNoGuesses():
         print 'You have ', guesses, 'guesses left.'
 
         available = getAvailableLetters()
@@ -78,7 +90,7 @@ def hangman(secretWord):
                 if letter in lettersGuessed:
                     guessed += letter
                 else:
-                    guessed += '_ '
+                    guessed += '_'
 
             print 'Oops! You have already guessed that letter: ', guessed
         elif letter in secretWord:
@@ -89,11 +101,11 @@ def hangman(secretWord):
                 if letter in lettersGuessed:
                     guessed += letter
                 else:
-                    guessed += '_ '
+                    guessed += '_'
 
             print 'Good Guess: ', guessed
         else:
-            guesses -= 1
+            guesses += constGuessesDecrement()
             lettersGuessed.append(letter)
 
             guessed = getGuessedWord()
@@ -101,7 +113,7 @@ def hangman(secretWord):
                 if letter in lettersGuessed:
                     guessed += letter
                 else:
-                    guessed += '_ '
+                    guessed += '_'
 
             print 'Oops! That letter is not in my word: ',  guessed
         print '------------'
