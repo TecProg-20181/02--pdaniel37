@@ -9,6 +9,7 @@ def constTextFile():
 WORDLIST_FILENAME = constTextFile()
 
 
+# load words from the file
 def loadWords():
     """
     Depending on the size of the word list, this function may
@@ -33,6 +34,7 @@ def constSecretWordComplete():
     return True
 
 
+# if complete the word
 def isWordGuessed(secretWord, lettersGuessed):
     for letter in secretWord:
         if letter in lettersGuessed:
@@ -52,6 +54,7 @@ def getGuessedWord():
     return guessed
 
 
+# get alphabet from the table ascii
 def getAvailableLetters():
     # 'abcdefghijklmnopqrstuvwxyz'
     available = string.ascii_lowercase
@@ -71,6 +74,7 @@ def constGuessesDecrement():
     return -1
 
 
+# if guess is repetitive
 def letterGuessed(secretWord, lettersGuessed):
     guessed = getGuessedWord()
     for letter in secretWord:
@@ -82,6 +86,7 @@ def letterGuessed(secretWord, lettersGuessed):
     print 'Oops! You have already guessed that letter: ', guessed
 
 
+# if correct guess
 def guessedCorrect(lettersGuessed, letter):
     lettersGuessed.append(letter)
     guessed = getGuessedWord()
@@ -94,6 +99,7 @@ def guessedCorrect(lettersGuessed, letter):
     print 'Good Guess: ', guessed
 
 
+# if wrong guess
 def guessedWrong(guesses, lettersGuessed, secretWord, letter):
     guesses += constGuessesDecrement()
     lettersGuessed.append(letter)
@@ -108,6 +114,7 @@ def guessedWrong(guesses, lettersGuessed, secretWord, letter):
     return guesses
 
 
+# run the game
 def play(guesses, lettersGuessed):
     returnFalse = constSecretWordImcomplete()
     while isWordGuessed(secretWord, lettersGuessed) == returnFalse and guesses > constNoGuesses():
@@ -135,6 +142,7 @@ def play(guesses, lettersGuessed):
         print ''
 
     else:
+        # final result
         returnTrue = constSecretWordComplete()
         if isWordGuessed(secretWord, lettersGuessed) == returnTrue:
             print 'Congratulations, you won!'
@@ -143,14 +151,17 @@ def play(guesses, lettersGuessed):
 
 
 def hangman(secretWord):
-
+    # initial configuration
     guesses = constGuessesTotal()
     lettersGuessed = []
     print 'Welcome to the game, Hangman!'
     print 'I am thinking of a word that is', len(secretWord), ' letters long.'
     print '-------------'
+    # start the game
     play(guesses, lettersGuessed)
+    print ''
     print 'Thanks for playing XD.'
+    print ''
 
 secretWord = loadWords().lower()
 hangman(secretWord)
