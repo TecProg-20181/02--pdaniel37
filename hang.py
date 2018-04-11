@@ -96,10 +96,7 @@ def guessedCorrect(lettersGuessed, letter):
 
 def guessedWrong(guesses, lettersGuessed, secretWord, letter):
     guesses += constGuessesDecrement()
-    print guesses
-    print lettersGuessed
     lettersGuessed.append(letter)
-    print lettersGuessed
     guessed = getGuessedWord()
     for letter in secretWord:
         if letter in lettersGuessed:
@@ -133,8 +130,9 @@ def play(guesses, lettersGuessed):
         else:
             guesses = guessedWrong(guesses, lettersGuessed, secretWord, letter)
 
-
+        print ''
         print '------------'
+        print ''
 
     else:
         returnTrue = constSecretWordComplete()
@@ -148,11 +146,11 @@ def hangman(secretWord):
 
     guesses = constGuessesTotal()
     lettersGuessed = []
-    print 'Welcome to the game, Hangam!'
+    print 'Welcome to the game, Hangman!'
     print 'I am thinking of a word that is', len(secretWord), ' letters long.'
     print '-------------'
     play(guesses, lettersGuessed)
-
+    print 'Thanks for playing XD.'
 
 secretWord = loadWords().lower()
 hangman(secretWord)
